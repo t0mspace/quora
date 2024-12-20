@@ -1,0 +1,20 @@
+name: CI
+
+on: [push]
+
+jobs:
+  phpcs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Fetch full history for comparison
+
+      - name: Install PHP_CodeSniffer
+        run: |
+          curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+          chmod +x phpcs.phar
+          ./phpcs.phar --version
+
+      - name: Run PHP_CodeSniffer
+        run: ./phpcs.phar --standard=phpcs.xml ./src
